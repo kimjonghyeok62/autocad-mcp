@@ -4,7 +4,7 @@
 single-family house ground floor plan using only MCP tool calls (`drawing`, `layer`, `entity`,
 `annotation`, `view`).
 
-- 12.0 m x 9.0 m (108 m²), 3 bedrooms / 2 bathrooms, millimetre units
+- 12.0 m x 9.0 m (108 m²), 2 bedrooms / 2 bathrooms, millimetre units
 - Walls with openings (solid hatch), windows, door swings, furniture, room labels, dimensions
 - Layers: `A-WALL`, `A-WIND`, `A-DOOR`, `A-FURN`, `A-TEXT`, `A-DIM`
 
