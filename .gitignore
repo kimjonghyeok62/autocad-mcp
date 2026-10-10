@@ -66,3 +66,6 @@ PIDv4-CTO/
 
 # pytest
 .pytest_cache/
+
+# Local scratch drawings (test outputs)
+drawings/
