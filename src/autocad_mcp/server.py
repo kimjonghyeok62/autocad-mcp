@@ -546,5 +546,15 @@ def main():
         ],
     )
 
+    # Preload native-extension modules (ezdxf -> numpy, matplotlib) before the
+    # stdio transport starts. On Windows, importing these lazily on the first
+    # tool call deadlocks while the transport's reader thread blocks on stdin.
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot  # noqa: F401
+    import autocad_mcp.backends.ezdxf_backend  # noqa: F401
+    from ezdxf.addons.drawing import matplotlib as _ezdxf_mpl  # noqa: F401
+
     log.info("autocad_mcp_starting", version="3.1.0")
     mcp.run(transport="stdio")
