@@ -1,7 +1,7 @@
 """Draw a single-family house floor plan through the AutoCAD MCP server.
 
 Launches the server over MCP stdio (as an MCP client would) and builds a
-12.0m x 9.0m, 3-bedroom / 2-bath ground floor plan in millimetres:
+12.0m x 9.0m, 2-bedroom / 2-bath ground floor plan in millimetres:
 walls with openings, windows, door swings, furniture, room labels, dimensions.
 
 Usage (from the repository root):
@@ -34,10 +34,9 @@ WALLS = [
     ("H", 9000,  0, 12000, EXT, [(1200, 3200, "W"), (5200, 5800, "W"), (7200, 8800, "W"), (10200, 11300, "W")]),
     ("V", 0,     0, 9000,  EXT, [(1500, 3500, "W"), (6200, 7800, "W")]),
     ("V", 12000, 0, 9000,  EXT, [(2600, 3400, "W"), (6200, 7800, "W")]),
-    ("H", 5000,  0, 12000, INT, [(3500, 4400, "D"), (5100, 5900, "D"), (6700, 7600, "D"), (10600, 11500, "D")]),
+    ("H", 5000,  0, 12000, INT, [(3500, 4400, "D"), (5100, 5900, "D"), (6700, 7600, "D")]),
     ("V", 4500,  5000, 9000, INT, []),
     ("V", 6500,  5000, 9000, INT, []),
-    ("V", 9500,  5000, 9000, INT, []),
     ("V", 10000, 0, 3800,  INT, [(600, 1600, "D")]),
     ("H", 2000,  10000, 12000, INT, []),
     ("H", 3800,  10000, 12000, INT, [(10400, 11200, "D")]),
@@ -46,12 +45,12 @@ WALLS = [
 # Door swing per opening (orientation, wall coord, open_from) -> (hinge side "a"|"b", swing direction +1|-1)
 DOOR_SWING = {
     ("H", 0, 10400): ("b", +1), ("H", 5000, 3500): ("b", +1), ("H", 5000, 5100): ("a", +1),
-    ("H", 5000, 6700): ("a", +1), ("H", 5000, 10600): ("b", +1), ("V", 10000, 600): ("a", -1),
+    ("H", 5000, 6700): ("a", +1), ("V", 10000, 600): ("a", -1),
     ("H", 3800, 10400): ("a", -1),
 }
 
 ROOMS = [
-    (2250, 7300, "MASTER BED"), (5500, 7600, "BATH"), (8000, 7300, "BED 2"), (10750, 7300, "BED 3"),
+    (2250, 7300, "MASTER BED"), (5500, 7600, "BATH"), (9250, 7300, "BED 2"),
     (3000, 2400, "LIVING"), (8200, 3300, "KITCHEN/DINING"), (11000, 900, "ENTRY"), (11000, 2800, "BATH 2"),
 ]
 
@@ -61,7 +60,7 @@ DIMS = [
     (0, 0, 6500, 0, 3000, -800), (6500, 0, 10000, 0, 8000, -800), (10000, 0, 12000, 0, 11000, -800),
     (0, 0, 0, 5000, -800, 2500), (0, 5000, 0, 9000, -800, 7000),
     (0, 9000, 4500, 9000, 2000, 9800), (4500, 9000, 6500, 9000, 5500, 9800),
-    (6500, 9000, 9500, 9000, 8000, 9800), (9500, 9000, 12000, 9000, 10750, 9800),
+    (6500, 9000, 12000, 9000, 9250, 9800),
 ]
 
 LAYERS = [("A-WALL", "white"), ("A-WIND", "cyan"), ("A-DOOR", "yellow"),
@@ -156,7 +155,6 @@ class Drawer:
         await self.rect(1500, 6700, 3100, 8800, F); await self.rect(1500, 8300, 3100, 8800, F)      # queen bed
         await self.rect(400, 5200, 1000, 7000, F)                                                   # wardrobe
         await self.rect(8100, 6700, 9200, 8800, F); await self.rect(8100, 8400, 9200, 8800, F)      # bed 2
-        await self.rect(10600, 6700, 11700, 8800, F); await self.rect(10600, 8400, 11700, 8800, F)  # bed 3
         await self.rect(4700, 7600, 6300, 8800, F)                                                  # bathtub
         # create_ellipse: major_x/major_y is the major-axis END POINT (absolute), not a length
         await self.call("entity", operation="create_ellipse", layer=F,
@@ -191,7 +189,7 @@ class Drawer:
                 await self.text(dx - len(val) * 60, dy + 60, val, 160, "A-DIM")
             else:
                 await self.text(dx - 60, dy - len(val) * 60, val, 160, "A-DIM", rotation=90)
-        await self.text(0, -2600, "SINGLE-FAMILY HOUSE - 1F FLOOR PLAN  (12.0m x 9.0m = 108m2, 3BR/2BA)  S=1:100",
+        await self.text(0, -2600, "SINGLE-FAMILY HOUSE - 1F FLOOR PLAN  (12.0m x 9.0m = 108m2, 2BR/2BA)  S=1:100",
                         350, "A-TEXT")
 
 
