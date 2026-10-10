@@ -1,12 +1,12 @@
 # House floor plan example
 
 `draw_house.py` starts the AutoCAD MCP server over stdio (the same way an MCP client does) and draws a
-single-family house ground floor plan using only MCP tool calls (`drawing`, `layer`, `entity`,
+two-storey single-family house (1F and 2F plans side by side) using only MCP tool calls (`drawing`, `layer`, `entity`,
 `annotation`, `view`).
 
-- 12.0 m x 9.0 m (108 m²), 2 bedrooms / 2 bathrooms, millimetre units
+- 12.0 m x 9.0 m per floor (216 m² total), 4 bedrooms / 2 bathrooms + study, dog-leg stair, millimetre units
 - Walls with openings (solid hatch), windows, door swings, furniture, room labels, dimensions
-- Layers: `A-WALL`, `A-WIND`, `A-DOOR`, `A-FURN`, `A-TEXT`, `A-DIM`
+- Layers: `A-WALL`, `A-WIND`, `A-DOOR`, `A-STAIR`, `A-FURN`, `A-TEXT`, `A-DIM`
 
 ![Floor plan](house_plan.png)
 
